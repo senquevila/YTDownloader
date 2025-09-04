@@ -1,2 +1,16 @@
+
+# Python virtual environment
 .venv/
+
+# Internal project directories
 downloads/
+
+# Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.pkl
+*.log
+*.sqlite3
