@@ -216,7 +216,7 @@ class YouTubeDownloaderGUI:
 
     def get_video_info(self):
         """Get and display video information"""
-        url = self.url_var.get().strip()
+        url = self.clean_url()
         if not url:
             messagebox.showwarning("Warning", "Please enter a YouTube URL")
             return
@@ -245,6 +245,14 @@ class YouTubeDownloaderGUI:
         # Run in separate thread
         threading.Thread(target=fetch_info, daemon=True).start()
 
+    def clean_url(self):
+        url = self.url_var.get().strip()
+        # Clean the URL before using it
+        if '&' in url:
+            url = url.split('&', 1)[0]
+            self.url_var.set(url)
+        return url
+
     def display_video_info(self, info):
         """Display video information in the text widget"""
         self.info_text.delete(1.0, tk.END)
@@ -255,17 +263,29 @@ class YouTubeDownloaderGUI:
         view_count = info.get("view_count", 0)
         upload_date = info.get("upload_date", "N/A")
 
-        info_text = f"""Title: {title}
-Uploader: {uploader}
-Duration: {duration // 60}:{duration % 60:02d}
-Views: {view_count:,}
-Upload Date: {upload_date}"""
+        info_text = (
+            f"Title: {title}\n"
+            f"Uploader: {uploader}\n"
+            f"Duration: {duration // 60}:{duration % 60:02d}\n"
+            f"Views: {view_count:,}\n"
+            f"Upload Date: {upload_date}"
+        )
 
         self.info_text.insert(tk.END, info_text)
 
         # Enable format loading
         self.load_formats_btn.config(state="normal")
         self.refresh_btn.config(state="normal")
+
+    def clean_url_on_paste(self, event=None):
+        # Schedule cleaning after paste
+        self.root.after(1, self._clean_url_var)
+
+    def _clean_url_var(self):
+        url = self.url_var.get()
+        if '&' in url:
+            cleaned = url.split('&', 1)[0]
+            self.url_var.set(cleaned)
 
     def load_formats(self):
         """Load available formats for the video"""
