@@ -248,8 +248,8 @@ class YouTubeDownloaderGUI:
     def clean_url(self):
         url = self.url_var.get().strip()
         # Clean the URL before using it
-        if '&' in url:
-            url = url.split('&', 1)[0]
+        if "&" in url:
+            url = url.split("&", 1)[0]
             self.url_var.set(url)
         return url
 
@@ -283,8 +283,8 @@ class YouTubeDownloaderGUI:
 
     def _clean_url_var(self):
         url = self.url_var.get()
-        if '&' in url:
-            cleaned = url.split('&', 1)[0]
+        if "&" in url:
+            cleaned = url.split("&", 1)[0]
             self.url_var.set(cleaned)
 
     def load_formats(self):

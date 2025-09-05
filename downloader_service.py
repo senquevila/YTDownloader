@@ -4,10 +4,8 @@ YouTube Downloader Service
 Centralized service for handling YouTube video downloads, format selection, and video information
 """
 
-import os
-import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import yt_dlp
 
